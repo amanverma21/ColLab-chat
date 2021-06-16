@@ -1,5 +1,4 @@
-// We enclose this in window.onload.
-// So we don't have ridiculous errors.
+
 window.onload = function() {
     var firebaseConfig = {
         apiKey: "AIzaSyD5xqlW6dTcFG1z9nsiT4six3jlJDbQR9E",
@@ -11,29 +10,26 @@ window.onload = function() {
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-    // Initialize Firebase
-    // firebase.initializeApp(firebaseConfig);
-    // This is very IMPORTANT!! We're going to use "db" a lot.
+    
     var db = firebase.database()
-    // We're going to use oBjEcT OrIeNtEd PrOgRaMmInG. Lol
+   
     class MEME_CHAT{
-      // Home() is used to create the home page
+      
       home(){
-        // First clear the body before adding in
-        // a title and the join form
+        
         document.body.innerHTML = ''
         this.create_title()
         this.create_join_form()
 
       }
-      // chat() is used to create the chat page
+   
       chat(){
         this.create_title()
         this.create_chat()
         this.dates()
         
       }
-      // create_title() is used to create the title
+    
       create_title(){
         // This is the title creator. 🎉
         var title_container = document.createElement('div')
@@ -50,11 +46,8 @@ window.onload = function() {
         document.body.append(title_container)
       }
 
-      //for date time
-     
-      // create_join_form() creates the join form
+      
       create_join_form(){
-        // YOU MUST HAVE (PARENT = THIS). OR NOT. I'M NOT YOUR BOSS!😂
         var parent = this;
   
         var join_container = document.createElement('div')
@@ -178,11 +171,11 @@ window.onload = function() {
               if(chat_input.value.length <= 0){
                 return
               }
-              // Enable the loading circle in the 'chat_content_container'
+            
               parent.create_load('chat_content_container')
-              // Send the message. Pass in the chat_input.value
+          
               parent.send_message(chat_input.value)
-              // Clear the chat input box
+            
               chat_input.value = ''
               // Focus on the input just after
               chat_input.focus()
@@ -215,18 +208,15 @@ window.onload = function() {
         // then we "refresh" and get the chat data from Firebase
         parent.refresh_chat()
       }
-      // Save name. It literally saves the name to localStorage
+      
       save_name(name){
         // Save name to localStorage
         localStorage.setItem('name', name)
       }
-      // Sends message/saves the message to firebase database
+      
       send_message(message){
         var parent = this
-        // if the local storage name is null and there is no message
-        // then return/don't send the message. The user is somehow hacking
-        // to send messages. Or they just deleted the
-        // localstorage themselves. But hacking sounds cooler!!
+       
         if(parent.get_name() == null && message == null){
           return
         }
@@ -259,7 +249,7 @@ window.onload = function() {
           return null
         }
       }
-      // Refresh chat gets the message/chat data from firebase
+     
       refresh_chat(){
         var chat_content_container = document.getElementById('chat_content_container')
   
@@ -272,10 +262,7 @@ window.onload = function() {
             return
           }
   
-          // OK! SO IF YOU'RE A ROOKIE CODER. THIS IS GOING TO BE
-          // SUPER EASY-ISH! I THINK. MAYBE NOT. WE'LL SEE!
-  
-          // convert the message object values to an array.
+         
           var messages = Object.values(messages_object.val());
           var guide = [] // this will be our guide to organizing the messages
           var unordered = [] // unordered messages
@@ -288,13 +275,12 @@ window.onload = function() {
             unordered.push([messages[i], messages[i].index]);
           }
   
-          // Now this is straight up from stack overflow 🤣
-          // Sort the unordered messages by the guide
+       
           guide.forEach(function(key) {
             var found = false
             unordered = unordered.filter(function(item) {
               if(!found && item[1] == key) {
-                // Now push the ordered messages to ordered array
+             
                 ordered.push(item[0])
                 found = true
                 return false
@@ -304,7 +290,7 @@ window.onload = function() {
             })
           })
   
-          // Now we're done. Simply display the ordered messages
+       
           ordered.forEach(function(data) {
             var name = data.name
             var message = data.message
@@ -347,18 +333,16 @@ window.onload = function() {
             chat_content_container.append(message_container)
           });
           
-          // Go to the recent message at the bottom of the container
+         
           chat_content_container.scrollTop = chat_content_container.scrollHeight;
           
       })
   }
   
     }
-    // So we've "built" our app. Let's make it work!!
+   
     var app = new MEME_CHAT()
-    // If we have a name stored in localStorage.
-    // Then use that name. Otherwise , if not.
-    // Go to home.
+   
     if(app.get_name() != null){
       app.chat()
     }
